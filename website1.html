@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Future Tenses Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4285f4;
+            --secondary: #3476a8;
+            --accent: #ea4335;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --gray: #5f6368;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Tense Navigation */
+        .tense-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tense-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 0.3rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .tense-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tense-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Tense Content */
+        .tense-content {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tense-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tense-content h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .structure-box {
+            background-color: #f1f8fe;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .structure-box h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .structure-formula {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 0.8rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .usage-section, .examples-section {
+            margin: 1.5rem 0;
+        }
+
+        .usage-section h3, .examples-section h3 {
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+
+        .usage-list {
+            list-style-type: none;
+        }
+
+        .usage-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+        }
+
+        .usage-list li:before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .example {
+            font-style: italic;
+            color: var(--dark);
+            margin: 0.8rem 0;
+            padding: 0.8rem;
+            background: #f9f9f9;
+            border-left: 3px solid var(--secondary);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-progress {
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: #e3f2fd;
+        }
+
+        .option.correct {
+            border-color: var(--secondary);
+            background: #e8f5e9;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent);
+            background: #ffebee;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-prev {
+            background: var(--gray);
+        }
+
+        .btn-next {
+            background: var(--secondary);
+        }
+
+        .btn-submit {
+            background: var(--accent);
+        }
+
+        .score-container {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .score-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .score-details {
+            margin-bottom: 2rem;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .score-details h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .score-details-list {
+            list-style-type: none;
+        }
+
+        .score-details-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-danger {
+            background: var(--accent);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+        }
+
+        .quiz-restart {
+            background: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tense-nav {
+                flex-direction: column;
+            }
+            
+            .tense-btn {
+                width: 100%;
+                margin: 0.3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Future Tenses</h1>
+    </header>
+
+    <div class="container">
+        <div class="tense-nav">
+            <button class="tense-btn active" data-tense="future-simple">Simple Future</button>
+            <button class="tense-btn" data-tense="future-continuous">Future Continuous</button>
+            <button class="tense-btn" data-tense="future-perfect">Future Perfect</button>
+            <button class="tense-btn" data-tense="future-perfect-continuous">Future Perfect Continuous</button>
+        </div>
+
+        <!-- Simple Future Content -->
+        <div id="future-simple" class="tense-content active">
+            <h2>Simple Future Tense</h2>
+            
+            <div class="structure-box">
+                <h3>Structure</h3>
+                <div class="structure-formula">Subject + will + base verb</div>
+                <div class="structure-formula" style="margin-top: 10px; color: var(--accent);">Subject + will not (won't) + base verb (Negative)</div>
+            </div>
+            
+            <div class="usage-section">
+                <h3>Usage</h3>
+                <ul class="usage-list">
+                    <li>To express a spontaneous decision</li>
+                    <li>To express an offer or promise</li>
+                    <li>To express a prediction</li>
+                    <li>To express a future fact</li>
+                </ul>
+            </div>
+            
+            <div class="examples-section">
+                <h3>Examples</h3>
+                <div class="example">I think I will go to the beach tomorrow.</div>
+                <div class="example">She will help you with your homework.</div>
+                <div class="example">They will probably arrive at 8pm.</div>
+                <div class="example" style="border-left-color: var(--accent);">I won't (will not) attend the meeting tomorrow.</div>
+            </div>
+            
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h3>Simple Future Quiz</h3>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div id="future-simple-progress" class="progress-bar"></div>
+                </div>
+                
+                <div id="future-simple-question" class="question-container"></div>
+                
+                <div class="quiz-navigation">
+                    <button id="future-simple-prev" class="quiz-btn btn-prev" disabled>Previous</button>
+                    <button id="future-simple-next" class="quiz-btn btn-next">Next</button>
+                    <button id="future-simple-submit" class="quiz-btn btn-submit" style="display: none;">Submit</button>
+                </div>
+                
+                <div id="future-simple-score" class="score-container">
+                    <div class="score-text">Your Score:</div>
+                    <div id="future-simple-score-value" class="score-value">0%</div>
+                    <div class="score-details">
+                        <h3>Quiz Summary</h3>
+                        <ul id="future-simple-score-details" class="score-details-list"></ul>
+                    </div>
+                    <div>
+                        <button id="future-simple-restart" class="quiz-btn quiz-restart">Restart Quiz</button>
+                        <button id="future-simple-danger" class="quiz-btn btn-danger" style="display: none; margin-left: 10px;">Try Again</button>
+                        <button id="future-simple-success" class="quiz-btn btn-success" style="display: none; margin-left: 10px;">Well Done!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Continuous Content -->
+        <div id="future-continuous" class="tense-content">
+            <h2>Future Continuous Tense</h2>
+            
+            <div class="structure-box">
+                <h3>Structure</h3>
+                <div class="structure-formula">Subject + will be + present participle (-ing)</div>
+                <div class="structure-formula" style="margin-top: 10px; color: var(--accent);">Subject + will not (won't) be + present participle (Negative)</div>
+            </div>
+            
+            <div class="usage-section">
+                <h3>Usage</h3>
+                <ul class="usage-list">
+                    <li>To describe an action in progress at a specific future time</li>
+                    <li>To describe future events that are fixed or expected</li>
+                    <li>To ask politely about someone's plans</li>
+                </ul>
+            </div>
+            
+            <div class="examples-section">
+                <h3>Examples</h3>
+                <div class="example">This time tomorrow, I will be flying to Paris.</div>
+                <div class="example">At 8pm tonight, we will be watching a movie.</div>
+                <div class="example">Will you be using your car tomorrow?</div>
+                <div class="example" style="border-left-color: var(--accent);">I won't be working this weekend.</div>
+            </div>
+            
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h3>Future Continuous Quiz</h3>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div id="future-continuous-progress" class="progress-bar"></div>
+                </div>
+                
+                <div id="future-continuous-question" class="question-container"></div>
+                
+                <div class="quiz-navigation">
+                    <button id="future-continuous-prev" class="quiz-btn btn-prev" disabled>Previous</button>
+                    <button id="future-continuous-next" class="quiz-btn btn-next">Next</button>
+                    <button id="future-continuous-submit" class="quiz-btn btn-submit" style="display: none;">Submit</button>
+                </div>
+                
+                <div id="future-continuous-score" class="score-container">
+                    <div class="score-text">Your Score:</div>
+                    <div id="future-continuous-score-value" class="score-value">0%</div>
+                    <div class="score-details">
+                        <h3>Quiz Summary</h3>
+                        <ul id="future-continuous-score-details" class="score-details-list"></ul>
+                    </div>
+                    <div>
+                        <button id="future-continuous-restart" class="quiz-btn quiz-restart">Restart Quiz</button>
+                        <button id="future-continuous-danger" class="quiz-btn btn-danger" style="display: none; margin-left: 10px;">Try Again</button>
+                        <button id="future-continuous-success" class="quiz-btn btn-success" style="display: none; margin-left: 10px;">Well Done!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Perfect Content -->
+        <div id="future-perfect" class="tense-content">
+            <h2>Future Perfect Tense</h2>
+            
+            <div class="structure-box">
+                <h3>Structure</h3>
+                <div class="structure-formula">Subject + will have + past participle</div>
+                <div class="structure-formula" style="margin-top: 10px; color: var(--accent);">Subject + will not (won't) have + past participle (Negative)</div>
+            </div>
+            
+            <div class="usage-section">
+                <h3>Usage</h3>
+                <ul class="usage-list">
+                    <li>To describe an action that will be completed before a specific time in the future</li>
+                    <li>To express certainty about something that will happen before a certain time</li>
+                </ul>
+            </div>
+            
+            <div class="examples-section">
+                <h3>Examples</h3>
+                <div class="example">By next year, I will have graduated.</div>
+                <div class="example">By the time you arrive, we will have finished dinner.</div>
+                <div class="example">She will have written the report by Friday.</div>
+                <div class="example" style="border-left-color: var(--accent);">They won't have completed the project by Monday.</div>
+            </div>
+            
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h3>Future Perfect Quiz</h3>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div id="future-perfect-progress" class="progress-bar"></div>
+                </div>
+                
+                <div id="future-perfect-question" class="question-container"></div>
+                
+                <div class="quiz-navigation">
+                    <button id="future-perfect-prev" class="quiz-btn btn-prev" disabled>Previous</button>
+                    <button id="future-perfect-next" class="quiz-btn btn-next">Next</button>
+                    <button id="future-perfect-submit" class="quiz-btn btn-submit" style="display: none;">Submit</button>
+                </div>
+                
+                <div id="future-perfect-score" class="score-container">
+                    <div class="score-text">Your Score:</div>
+                    <div id="future-perfect-score-value" class="score-value">0%</div>
+                    <div class="score-details">
+                        <h3>Quiz Summary</h3>
+                        <ul id="future-perfect-score-details" class="score-details-list"></ul>
+                    </div>
+                    <div>
+                        <button id="future-perfect-restart" class="quiz-btn quiz-restart">Restart Quiz</button>
+                        <button id="future-perfect-danger" class="quiz-btn btn-danger" style="display: none; margin-left: 10px;">Try Again</button>
+                        <button id="future-perfect-success" class="quiz-btn btn-success" style="display: none; margin-left: 10px;">Well Done!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Future Perfect Continuous Content -->
+        <div id="future-perfect-continuous" class="tense-content">
+            <h2>Future Perfect Continuous Tense</h2>
+            
+            <div class="structure-box">
+                <h3>Structure</h3>
+                <div class="structure-formula">Subject + will have been + present participle (-ing)</div>
+                <div class="structure-formula" style="margin-top: 10px; color: var(--accent);">Subject + will not (won't) have been + present participle (Negative)</div>
+            </div>
+            
+            <div class="usage-section">
+                <h3>Usage</h3>
+                <ul class="usage-list">
+                    <li>To emphasize the duration of an action that will be in progress before another time in the future</li>
+                    <li>To show cause and effect in the future</li>
+                </ul>
+            </div>
+            
+            <div class="examples-section">
+                <h3>Examples</h3>
+                <div class="example">By next month, I will have been working here for 5 years.</div>
+                <div class="example">They will have been traveling for 24 hours when they arrive.</div>
+                <div class="example">By 2025, we will have been living in this house for a decade.</div>
+                <div class="example" style="border-left-color: var(--accent);">I won't have been waiting for more than an hour.</div>
+            </div>
+            
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h3>Future Perfect Continuous Quiz</h3>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div id="future-perfect-continuous-progress" class="progress-bar"></div>
+                </div>
+                
+                <div id="future-perfect-continuous-question" class="question-container"></div>
+                
+                <div class="quiz-navigation">
+                    <button id="future-perfect-continuous-prev" class="quiz-btn btn-prev" disabled>Previous</button>
+                    <button id="future-perfect-continuous-next" class="quiz-btn btn-next">Next</button>
+                    <button id="future-perfect-continuous-submit" class="quiz-btn btn-submit" style="display: none;">Submit</button>
+                </div>
+                
+                <div id="future-perfect-continuous-score" class="score-container">
+                    <div class="score-text">Your Score:</div>
+                    <div id="future-perfect-continuous-score-value" class="score-value">0%</div>
+                    <div class="score-details">
+                        <h3>Quiz Summary</h3>
+                        <ul id="future-perfect-continuous-score-details" class="score-details-list"></ul>
+                    </div>
+                    <div>
+                        <button id="future-perfect-continuous-restart" class="quiz-btn quiz-restart">Restart Quiz</button>
+                        <button id="future-perfect-continuous-danger" class="quiz-btn btn-danger" style="display: none; margin-left: 10px;">Try Again</button>
+                        <button id="future-perfect-continuous-success" class="quiz-btn btn-success" style="display: none; margin-left: 10px;">Well Done!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data for Each Tense
+        const quizzes = {
+            "future-simple": {
+                title: "Simple Future Quiz",
+                questions: [
+                    {
+                        question: "Which sentence is in the Simple Future tense?",
+                        options: [
+                            "She is going to the store later.",
+                            "They will visit us next week.",
+                            "I have finished my homework.",
+                            "We were watching a movie."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "'They will visit us next week' uses 'will + base verb' which is the structure for Simple Future."
+                    },
+                    {
+                        question: "What is the correct negative form of: 'I will call you tomorrow'?",
+                        options: [
+                            "I will not call you tomorrow.",
+                            "I do not call you tomorrow.",
+                            "I am not calling you tomorrow.",
+                            "I have not called you tomorrow."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The negative form of Simple Future is 'will not' or 'won't' + base verb."
+                    },
+                    {
+                        question: "Which sentence correctly uses Simple Future for a promise?",
+                        options: [
+                            "I will help you with your project.",
+                            "She is helping with the project.",
+                            "They helped with the project.",
+                            "We have helped with the project."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "'I will help you with your project' uses Simple Future to make a promise."
+                    },
+                    {
+                        question: "What is the question form of: 'You will enjoy the party'?",
+                        options: [
+                            "Will you enjoy the party?",
+                            "Do you enjoy the party?",
+                            "Are you enjoying the party?",
+                            "Have you enjoyed the party?"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The question form of Simple Future is 'Will + subject + base verb?'"
+                    },
+                    {
+                        question: "Which sentence shows the correct negative form?",
+                        options: [
+                            "I will to not go there.",
+                            "I will not going there.",
+                            "I won't go there.",
+                            "I will not goes there."
+                        ],
+                        correctAnswer: 2,
+                        explanation: "The correct negative form is 'won't go' or 'will not go'."
+                    }
+                ]
+            },
+            "future-continuous": {
+                title: "Future Continuous Quiz",
+                questions: [
+                    {
+                        question: "Which sentence is in the Future Continuous tense?",
+                        options: [
+                            "She will bake a cake.",
+                            "They will be traveling this time next week.",
+                            "I have been working all day.",
+                            "We were playing tennis."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "'They will be traveling' uses 'will be + present participle' which is the structure for Future Continuous."
+                    },
+                    {
+                        question: "What is the correct question form of: 'You will be waiting for me'?",
+                        options: [
+                            "Will you be waiting for me?",
+                            "Do you be waiting for me?",
+                            "Are you waiting for me?",
+                            "Have you been waiting for me?"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The question form of Future Continuous is 'Will + subject + be + present participle?'"
+                    },
+                    {
+                        question: "When do we use Future Continuous tense?",
+                        options: [
+                            "For completed actions in the future",
+                            "For actions that will be in progress at a specific future time",
+                            "For past habits",
+                            "For general truths"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "Future Continuous is used for actions that will be in progress at a specific future time."
+                    },
+                    {
+                        question: "What is the negative form of: 'We will be studying at 8pm'?",
+                        options: [
+                            "We will not be studying at 8pm.",
+                            "We do not be studying at 8pm.",
+                            "We are not studying at 8pm.",
+                            "We have not been studying at 8pm."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The negative form is 'will not be + present participle'."
+                    },
+                    {
+                        question: "Which negative sentence is correct?",
+                        options: [
+                            "I will not be work tomorrow.",
+                            "I won't be working tomorrow.",
+                            "I will not being working tomorrow.",
+                            "I won't be work tomorrow."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "The correct negative form is 'won't be working'."
+                    }
+                ]
+            },
+            "future-perfect": {
+                title: "Future Perfect Quiz",
+                questions: [
+                    {
+                        question: "Which sentence is in the Future Perfect tense?",
+                        options: [
+                            "I will finish my work soon.",
+                            "She will have completed the project by Friday.",
+                            "They are going to the party.",
+                            "We were studying all night."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "'She will have completed' uses 'will have + past participle' which is the structure for Future Perfect."
+                    },
+                    {
+                        question: "What is the negative form of: 'They will have arrived by noon'?",
+                        options: [
+                            "They will not have arrived by noon.",
+                            "They do not have arrived by noon.",
+                            "They are not arriving by noon.",
+                            "They have not arrived by noon."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The negative form of Future Perfect is 'will not have + past participle'."
+                    },
+                    {
+                        question: "Which phrase typically indicates the need for Future Perfect tense?",
+                        options: [
+                            "Right now",
+                            "By this time tomorrow",
+                            "Every day",
+                            "Last week"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "'By this time tomorrow' indicates a time before which something will be completed, requiring Future Perfect."
+                    },
+                    {
+                        question: "What is the question form of: 'You will have finished the report by Monday'?",
+                        options: [
+                            "Will you have finished the report by Monday?",
+                            "Do you have finished the report by Monday?",
+                            "Are you finishing the report by Monday?",
+                            "Have you finished the report by Monday?"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The question form is 'Will + subject + have + past participle?'"
+                    },
+                    {
+                        question: "Which negative sentence is correct?",
+                        options: [
+                            "I will not have finish by then.",
+                            "I won't have finished by then.",
+                            "I will not has finished by then.",
+                            "I won't have finish by then."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "The correct negative form is 'won't have finished'."
+                    }
+                ]
+            },
+            "future-perfect-continuous": {
+                title: "Future Perfect Continuous Quiz",
+                questions: [
+                    {
+                        question: "Which sentence is in the Future Perfect Continuous tense?",
+                        options: [
+                            "I will be working all day.",
+                            "She will have been working here for 5 years next month.",
+                            "They have been waiting for hours.",
+                            "We were playing soccer."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "'She will have been working' uses 'will have been + present participle' which is the structure for Future Perfect Continuous."
+                    },
+                    {
+                        question: "What is the main purpose of Future Perfect Continuous tense?",
+                        options: [
+                            "To describe completed actions",
+                            "To emphasize the duration of an action up to a future point",
+                            "To talk about past experiences",
+                            "To describe current habits"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "Future Perfect Continuous emphasizes the duration of an action that will continue up to a future point."
+                    },
+                    {
+                        question: "What is the negative form of: 'They will have been living here for 10 years'?",
+                        options: [
+                            "They will not have been living here for 10 years.",
+                            "They do not have been living here for 10 years.",
+                            "They are not living here for 10 years.",
+                            "They have not been living here for 10 years."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "The negative form is 'will not have been + present participle'."
+                    },
+                    {
+                        question: "Which sentence correctly emphasizes duration with Future Perfect Continuous?",
+                        options: [
+                            "By June, we will have been dating for two years.",
+                            "We will date next summer.",
+                            "We have dated for two years.",
+                            "We were dating for two years."
+                        ],
+                        correctAnswer: 0,
+                        explanation: "This sentence emphasizes the duration (two years) of an action continuing up to a future point (by June)."
+                    },
+                    {
+                        question: "Which negative sentence is correct?",
+                        options: [
+                            "I will not have been work here long.",
+                            "I won't have been working here long.",
+                            "I will not have being working here long.",
+                            "I won't have been work here long."
+                        ],
+                        correctAnswer: 1,
+                        explanation: "The correct negative form is 'won't have been working'."
+                    }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize quizzes when the page loads
+            initializeAllQuizzes();
+            
+            // Set up tense navigation
+            const tenseBtns = document.querySelectorAll('.tense-btn');
+            tenseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tenseId = this.dataset.tense;
+                    showTense(tenseId);
+                });
+            });
+            
+            // Show the first tense by default
+            showTense('future-simple');
+        });
+
+        function showTense(tenseId) {
+            // Hide all tense contents
+            document.querySelectorAll('.tense-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected tense content
+            document.getElementById(tenseId).classList.add('active');
+            
+            // Update active button
+            document.querySelectorAll('.tense-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tense === tenseId);
+            });
+        }
+
+        function initializeAllQuizzes() {
+            // Initialize each quiz
+            for (const tenseId in quizzes) {
+                initializeQuiz(tenseId);
+            }
+        }
+
+        function initializeQuiz(tenseId) {
+            const quizData = quizzes[tenseId];
+            const questionContainer = document.getElementById(`${tenseId}-question`);
+            const progressBar = document.getElementById(`${tenseId}-progress`);
+            const prevBtn = document.getElementById(`${tenseId}-prev`);
+            const nextBtn = document.getElementById(`${tenseId}-next`);
+            const submitBtn = document.getElementById(`${tenseId}-submit`);
+            const scoreContainer = document.getElementById(`${tenseId}-score`);
+            const scoreValue = document.getElementById(`${tenseId}-score-value`);
+            const scoreDetails = document.getElementById(`${tenseId}-score-details`);
+            const restartBtn = document.getElementById(`${tenseId}-restart`);
+            const dangerBtn = document.getElementById(`${tenseId}-danger`);
+            const successBtn = document.getElementById(`${tenseId}-success`);
+
+            let currentQuestionIndex = 0;
+            let selectedAnswers = Array(quizData.questions.length).fill(null);
+            let score = 0;
+            let isSubmitted = false;
+
+            function showQuestion() {
+                const currentQuestion = quizData.questions[currentQuestionIndex];
+                const questionNumber = currentQuestionIndex + 1;
+                
+                // Update progress bar
+                progressBar.style.width = `${(questionNumber / quizData.questions.length) * 100}%`;
+                
+                // Display question
+                questionContainer.innerHTML = `
+                    <div class="question-text">${questionNumber}. ${currentQuestion.question}</div>
+                    <div class="options-container">
+                        ${currentQuestion.options.map((option, index) => `
+                            <div class="option" data-index="${index}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${selectedAnswers[currentQuestionIndex] !== null ? `
+                        <div class="explanation" style="margin-top: 1rem; padding: 1rem; background: #f5f5f5; border-radius: 5px;">
+                            <strong>Explanation:</strong> ${currentQuestion.explanation}
+                        </div>
+                    ` : ''}
+                `;
+                
+                // Highlight selected answer if exists
+                if (selectedAnswers[currentQuestionIndex] !== null) {
+                    const options = questionContainer.querySelectorAll('.option');
+                    options[selectedAnswers[currentQuestionIndex]].classList.add('selected');
+                    
+                    // Show correct/incorrect
+                    const correctIndex = currentQuestion.correctAnswer;
+                    if (selectedAnswers[currentQuestionIndex] === correctIndex) {
+                        options[correctIndex].classList.add('correct');
+                    } else {
+                        options[selectedAnswers[currentQuestionIndex]].classList.add('incorrect');
+                        options[correctIndex].classList.add('correct');
+                    }
+                }
+                
+                // Set up option selection if not submitted
+                if (!isSubmitted) {
+                    questionContainer.querySelectorAll('.option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            if (selectedAnswers[currentQuestionIndex] === null) {
+                                const selectedIndex = parseInt(this.dataset.index);
+                                selectedAnswers[currentQuestionIndex] = selectedIndex;
+                                showQuestion(); // Refresh to show selection
+                            }
+                        });
+                    });
+                }
+                
+                // Update navigation buttons
+                prevBtn.disabled = currentQuestionIndex === 0;
+                
+                if (currentQuestionIndex === quizData.questions.length - 1) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = isSubmitted ? 'none' : 'block';
+                } else {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                }
+            }
+
+            function showNextQuestion() {
+                if (currentQuestionIndex < quizData.questions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion();
+                }
+            }
+
+            function showPreviousQuestion() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion();
+                }
+            }
+
+            function submitQuiz() {
+                // Calculate score
+                score = 0;
+                quizData.questions.forEach((question, index) => {
+                    if (selectedAnswers[index] === question.correctAnswer) {
+                        score++;
+                    }
+                });
+                
+                const percentage = Math.round((score / quizData.questions.length) * 100);
+                
+                // Show score
+                questionContainer.style.display = 'none';
+                progressBar.style.display = 'none';
+                document.querySelector(`#${tenseId}-quiz .quiz-navigation`).style.display = 'flex';
+                scoreValue.textContent = `${percentage}%`;
+                
+                // Set color based on score
+                if (percentage >= 70) {
+                    scoreValue.style.color = 'var(--secondary)';
+                    successBtn.style.display = 'inline-block';
+                    dangerBtn.style.display = 'none';
+                } else {
+                    scoreValue.style.color = 'var(--accent)';
+                    successBtn.style.display = 'none';
+                    dangerBtn.style.display = 'inline-block';
+                }
+                
+                // Generate score details
+                scoreDetails.innerHTML = '';
+                quizData.questions.forEach((question, index) => {
+                    const li = document.createElement('li');
+                    const isCorrect = selectedAnswers[index] === question.correctAnswer;
+                    li.innerHTML = `
+                        <strong>Q${index + 1}:</strong> ${question.question}<br>
+                        <span style="color: ${isCorrect ? 'var(--secondary)' : 'var(--accent)'}">
+                            ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                        </span> - ${question.explanation}
+                    `;
+                    scoreDetails.appendChild(li);
+                });
+                
+                scoreContainer.style.display = 'block';
+                isSubmitted = true;
+                
+                // Show all questions navigation after submission
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+
+            function restartQuiz() {
+                // Reset quiz state
+                currentQuestionIndex = 0;
+                selectedAnswers = Array(quizData.questions.length).fill(null);
+                score = 0;
+                isSubmitted = false;
+                
+                // Show the first question again
+                questionContainer.style.display = 'block';
+                progressBar.style.display = 'block';
+                document.querySelector(`#${tenseId}-quiz .quiz-navigation`).style.display = 'flex';
+                scoreContainer.style.display = 'none';
+                
+                // Reset navigation buttons
+                prevBtn.disabled = true;
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+                
+                // Hide result buttons
+                dangerBtn.style.display = 'none';
+                successBtn.style.display = 'none';
+                
+                showQuestion();
+            }
+
+            // Add event listeners
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', showNextQuestion);
+            submitBtn.addEventListener('click', submitQuiz);
+            restartBtn.addEventListener('click', restartQuiz);
+
+            // Initialize the first question
+            showQuestion();
+        }
+    </script>
+</body>
+</html>
